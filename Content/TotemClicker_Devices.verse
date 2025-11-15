@@ -10,6 +10,7 @@ using { /Fortnite.com/Game }
 using { /Verse.org/Simulation }
 using { /UnrealEngine.com/Temporary/Diagnostics }
 using { /UnrealEngine.com/Temporary/SpatialMath }
+using { /UnrealEngine.com/Temporary/UI }
 
 # Device principal du jeu Totem Clicker
 totem_clicker_device := class(creative_device):
@@ -246,6 +247,61 @@ totem_clicker_device := class(creative_device):
     PrestigeButton : button_device = button_device{}
 
     # ============================================
+    # NOUVEAUX DEVICES POUR LES SYSTÈMES
+    # ============================================
+
+    # Billboards pour afficher les informations
+    @editable
+    LeaderboardSoulsBillboard : billboard_device = billboard_device{}
+
+    @editable
+    LeaderboardProductionBillboard : billboard_device = billboard_device{}
+
+    @editable
+    LeaderboardPrestigeBillboard : billboard_device = billboard_device{}
+
+    @editable
+    AchievementsBillboard : billboard_device = billboard_device{}
+
+    @editable
+    StatisticsBillboard : billboard_device = billboard_device{}
+
+    @editable
+    QuestsBillboard : billboard_device = billboard_device{}
+
+    @editable
+    EventBillboard : billboard_device = billboard_device{}
+
+    @editable
+    ComboBillboard : billboard_device = billboard_device{}
+
+    # Bouton pour réclamer les récompenses de quêtes
+    @editable
+    ClaimQuestsButton : button_device = button_device{}
+
+    # ============================================
+    # FONCTIONS LOCALISÉES POUR BILLBOARDS
+    # ============================================
+
+    # Messages simples pour les billboards (seuls les int/float sont supportés comme paramètres)
+    <localizes>
+    ComboMessage<private>(Count : int) : message = "COMBO x{Count}"
+    <localizes>
+    NoComboMessage<private>() : message = "Cliquez vite!"
+    <localizes>
+    EventActiveMessage<private>() : message = "EVENT ACTIF"
+    <localizes>
+    NoEventMessage<private>() : message = "Aucun event"
+    <localizes>
+    StatsMessage<private>() : message = "STATS (console)"
+    <localizes>
+    QuestsMessage<private>() : message = "QUETES (console)"
+    <localizes>
+    AchievementsMessage<private>() : message = "ACHIEVEMENTS"
+    <localizes>
+    LeaderboardMessage<private>() : message = "LEADERBOARD"
+
+    # ============================================
     # FONCTIONS D'INITIALISATION
     # ============================================
 
@@ -264,6 +320,10 @@ totem_clicker_device := class(creative_device):
         # Démarre la boucle de production
         spawn:
             Core.StartProductionLoop()
+
+        # Démarre la boucle d'affichage des billboards
+        spawn:
+            UpdateBillboardsLoop()
 
         Print("All systems ready!")
 
@@ -351,6 +411,9 @@ totem_clicker_device := class(creative_device):
 
         # Prestige
         PrestigeButton.InteractedWithEvent.Subscribe(OnPrestigeClicked)
+
+        # Bouton pour réclamer les quêtes
+        ClaimQuestsButton.InteractedWithEvent.Subscribe(OnClaimQuestsClicked)
 
         Print("All device events connected!")
 
@@ -665,6 +728,114 @@ totem_clicker_device := class(creative_device):
     OnPrestigeClicked(Agent : agent) : void =
         if (Player := player[Agent]):
             spawn { Core.ActivatePrestige(Player) }
+
+    # ============================================
+    # EVENT HANDLERS - QUÊTES
+    # ============================================
+
+    # Réclamer les récompenses de quêtes
+    OnClaimQuestsClicked(Agent : agent) : void =
+        if (Player := player[Agent]):
+            spawn { ClaimQuestsRewards(Player) }
+
+    # Fonction pour réclamer toutes les récompenses de quêtes complétées
+    ClaimQuestsRewards(Player : player)<suspends> : void =
+        Quests := Core.GetQuests()
+
+        MaybeState := Core.GetPlayerState(Player)
+        if:
+            State := MaybeState?
+        then:
+            var TotalReward : int = 0
+
+            # Récupère toutes les récompenses
+            RewardAmount := Quests.ClaimAllRewards(Player)
+            set TotalReward = RewardAmount
+
+            if (TotalReward > 0):
+                # Ajoute les âmes au joueur
+                Core.AddSouls(Player, TotalReward)
+                Print("Player claimed {TotalReward} souls from quests!")
+            else:
+                Print("No quest rewards to claim")
+
+    # ============================================
+    # BOUCLE D'AFFICHAGE DES BILLBOARDS
+    # ============================================
+
+    # Met à jour tous les billboards périodiquement
+    UpdateBillboardsLoop()<suspends> : void =
+        loop:
+            Sleep(2.0)  # Met à jour toutes les 2 secondes
+
+            # Récupère les managers
+            Leaderboard := Core.GetLeaderboard()
+            Achievements := Core.GetAchievements()
+            Statistics := Core.GetStatistics()
+            Quests := Core.GetQuests()
+            Events := Core.GetEvents()
+            Combo := Core.GetCombo()
+            UI := Core.GetUI()
+
+            # Pour chaque joueur, met à jour ses billboards personnels
+            AllPlayers := GetPlayspace().GetPlayers()
+            for (Player : AllPlayers):
+                MaybeState := Core.GetPlayerState(Player)
+                if:
+                    State := MaybeState?
+                then:
+                    # Leaderboards (affichage global - seulement une fois, pas par joueur)
+                    false
+
+            # Met à jour les leaderboards (affichage global)
+            LeaderboardSoulsText := Leaderboard.GenerateTopSoulsText(UI)
+            Print("LEADERBOARD SOULS:\n{LeaderboardSoulsText}")
+            LeaderboardSoulsBillboard.SetText(LeaderboardMessage())
+
+            LeaderboardProductionText := Leaderboard.GenerateTopProductionText(UI)
+            Print("LEADERBOARD PRODUCTION:\n{LeaderboardProductionText}")
+            LeaderboardProductionBillboard.SetText(LeaderboardMessage())
+
+            LeaderboardPrestigeText := Leaderboard.GenerateTopPrestigeText(UI)
+            Print("LEADERBOARD PRESTIGE:\n{LeaderboardPrestigeText}")
+            LeaderboardPrestigeBillboard.SetText(LeaderboardMessage())
+
+            # Met à jour les billboards personnels pour chaque joueur
+            # Note: Pour un vrai système multi-joueur, vous devriez avoir des billboards séparés par joueur
+            # Pour l'instant, on affiche juste pour le premier joueur actif
+            if (AllPlayers.Length > 0):
+                if (FirstPlayer := AllPlayers[0]):
+                    # Achievements (par joueur)
+                    AchievementsText := Achievements.GenerateAchievementsText(FirstPlayer)
+                    Print("ACHIEVEMENTS:\n{AchievementsText}")
+                    AchievementsBillboard.SetText(AchievementsMessage())
+
+                    # Statistiques (par joueur)
+                    StatsText := Statistics.GenerateStatsText(FirstPlayer, UI)
+                    Print("STATISTICS:\n{StatsText}")
+                    StatisticsBillboard.SetText(StatsMessage())
+
+                    # Quêtes (par joueur)
+                    QuestsText := Quests.GenerateQuestsText(FirstPlayer)
+                    Print("QUESTS:\n{QuestsText}")
+                    QuestsBillboard.SetText(QuestsMessage())
+
+                    # Event actif (par joueur)
+                    EventText := Events.GenerateEventText(FirstPlayer)
+                    Print("EVENT:\n{EventText}")
+                    if (Events.HasActiveEvent(FirstPlayer)):
+                        EventBillboard.SetText(EventActiveMessage())
+                    else:
+                        EventBillboard.SetText(NoEventMessage())
+
+                    # Combo (par joueur)
+                    ComboCount := Combo.GetPlayerComboCount(FirstPlayer)
+                    ComboText := Combo.GenerateComboText(FirstPlayer)
+                    Print("COMBO:\n{ComboText}")
+                    if (ComboCount > 0):
+                        ComboBillboard.SetText(ComboMessage(ComboCount))
+                    else:
+                        ComboBillboard.SetText(NoComboMessage())
 
 # =========================================================================
 # NOTES D'UTILISATION

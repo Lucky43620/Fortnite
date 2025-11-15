@@ -23,11 +23,11 @@ player_combo := class:
         if (TimeDiff < 0.5):
             set ComboCount += 1
 
-            # Calcule le multiplicateur (max x5)
-            # Formule : 1 + (ComboCount * 0.1), max 5.0
-            NewMultiplier := 1.0 + (ComboCount * 0.1)
-            if (NewMultiplier > 5.0):
-                set ComboMultiplier = 5.0
+            # Calcule le multiplicateur (max x2.5) - RÉDUIT POUR ÉQUILIBRAGE
+            # Formule : 1 + (ComboCount * 0.05), max 2.5
+            NewMultiplier := 1.0 + (ComboCount * 0.05)
+            if (NewMultiplier > 2.5):
+                set ComboMultiplier = 2.5
             else:
                 set ComboMultiplier = NewMultiplier
 
