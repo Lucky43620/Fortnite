@@ -12,6 +12,35 @@ using { /UnrealEngine.com/Temporary/Diagnostics }
 using { /UnrealEngine.com/Temporary/SpatialMath }
 using { /UnrealEngine.com/Temporary/UI }
 
+# ============================================
+# FONCTIONS LOCALISÉES POUR BILLBOARDS
+# ============================================
+
+# Messages simples pour les billboards (seuls les int/float sont supportés comme paramètres)
+<localizes>
+ComboMessage(Count : int) : message = "COMBO x{Count}"
+
+<localizes>
+NoComboMessage() : message = "Cliquez vite!"
+
+<localizes>
+EventActiveMessage() : message = "EVENT ACTIF"
+
+<localizes>
+NoEventMessage() : message = "Aucun event"
+
+<localizes>
+StatsMessage() : message = "STATS (console)"
+
+<localizes>
+QuestsMessage() : message = "QUETES (console)"
+
+<localizes>
+AchievementsMessage() : message = "ACHIEVEMENTS"
+
+<localizes>
+LeaderboardMessage() : message = "LEADERBOARD"
+
 # Device principal du jeu Totem Clicker
 totem_clicker_device := class(creative_device):
 
@@ -278,20 +307,6 @@ totem_clicker_device := class(creative_device):
     # Bouton pour réclamer les récompenses de quêtes
     @editable
     ClaimQuestsButton : button_device = button_device{}
-
-    # ============================================
-    # FONCTIONS LOCALISÉES POUR BILLBOARDS
-    # ============================================
-
-    # Messages simples pour les billboards
-    ComboMessage<private>(Count : int) : string = "COMBO x{Count}"
-    NoComboMessage<private>() : string = "Cliquez vite!"
-    EventActiveMessage<private>() : string = "EVENT ACTIF"
-    NoEventMessage<private>() : string = "Aucun event"
-    StatsMessage<private>() : string = "STATS (console)"
-    QuestsMessage<private>() : string = "QUETES (console)"
-    AchievementsMessage<private>() : string = "ACHIEVEMENTS"
-    LeaderboardMessage<private>() : string = "LEADERBOARD"
 
     # ============================================
     # FONCTIONS D'INITIALISATION
