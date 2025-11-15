@@ -745,7 +745,7 @@ totem_clicker_device := class(creative_device):
         if (Player := player[Agent]):
             RewardAmount := Core.GetQuests().ClaimAllRewards(Player)
             if (RewardAmount > 0):
-                Core.AddSouls(Player, RewardAmount)
+                spawn { Core.AddSouls(Player, RewardAmount) }
                 Print("Player claimed souls from quests!")
             else:
                 Print("No quest rewards to claim")
