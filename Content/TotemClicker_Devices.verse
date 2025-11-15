@@ -736,25 +736,9 @@ totem_clicker_device := class(creative_device):
     # Réclamer les récompenses de quêtes
     OnClaimQuestsClicked(Agent : agent) : void =
         if (Player := player[Agent]):
-            spawn { ClaimQuestsRewards(Player) }
-
-    # Fonction pour réclamer toutes les récompenses de quêtes complétées
-    ClaimQuestsRewards(Player : player)<suspends> : void =
-        Quests := Core.GetQuests()
-
-        MaybeState := Core.GetPlayerState(Player)
-        if:
-            State := MaybeState?
-        then:
-            var TotalReward : int = 0
-
-            # Récupère toutes les récompenses
-            RewardAmount := Quests.ClaimAllRewards(Player)
-            set TotalReward = RewardAmount
-
-            if (TotalReward > 0):
-                # Ajoute les âmes au joueur
-                Core.AddSouls(Player, TotalReward)
+            RewardAmount := Core.GetQuests().ClaimAllRewards(Player)
+            if (RewardAmount > 0):
+                Core.AddSouls(Player, RewardAmount)
                 Print("Player claimed souls from quests!")
             else:
                 Print("No quest rewards to claim")
