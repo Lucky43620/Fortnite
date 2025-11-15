@@ -120,7 +120,7 @@ totem_clicker_core := class(creative_device):
             # Restaure les quêtes
             Quests.RestorePlayerQuests(Player, SavedData.QuestsCompleted, SavedData.QuestsProgress)
 
-            Print("Player initialized - Souls: {NewState.Souls}")
+            Print("Player initialized")
 
     # =========================================================================
     # BOUCLE DE PRODUCTION
@@ -225,7 +225,7 @@ totem_clicker_core := class(creative_device):
             if (IsSoulRain = true):
                 SoulRainBonus := Events.CalculateSoulRainBonus(State.Souls)
                 State.AddSouls(SoulRainBonus)
-                Print("SOUL RAIN! Bonus: {SoulRainBonus} souls")
+                Print("SOUL RAIN! Bonus souls gained")
 
             # Sauvegarde automatique via persistence
             PersistenceManager.UpdateSouls(Player, State.Souls)
@@ -245,7 +245,7 @@ totem_clicker_core := class(creative_device):
             then:
                 Achievements.CheckClickAchievements(Player, Stats3.TotalClicks)
 
-            Print("Player clicked - Gained {FinalGain} souls (Combo: x{ComboMultiplier}, Total: {State.Souls})")
+            Print("Player clicked - Souls gained")
         else:
             Print("Player not initialized - initializing now...")
             InitPlayer(Player)
@@ -309,11 +309,11 @@ totem_clicker_core := class(creative_device):
                         PersistenceManager.UpdateGeneratorLevels(Player, State.GeneratorLevels)
                         PersistenceManager.UpdateSoulsPerSecond(Player, State.SoulsPerSecond)
 
-                        Print("Player bought {GeneratorData.Name} lvl {NewLevel} - SPS: {State.SoulsPerSecond}")
+                        Print("Player bought generator")
                     else:
                         Print("Failed to spend souls")
                 else:
-                    Print("Player cannot afford {GeneratorData.Name} (Cost: {Cost}, Souls: {State.Souls})")
+                    Print("Player cannot afford generator")
 
     # =========================================================================
     # UPGRADES
@@ -377,9 +377,9 @@ totem_clicker_core := class(creative_device):
                         PersistenceManager.UpdateClickUpgradeLevel(Player, State.ClickUpgradeLevel)
                         PersistenceManager.UpdateSoulsPerClick(Player, State.SoulsPerClick)
 
-                        Print("Player upgraded click to lvl {NewLevel} - Power: {NewClickPower}")
+                        Print("Player upgraded click")
                 else:
-                    Print("Player cannot afford click upgrade (Cost: {Cost})")
+                    Print("Player cannot afford click upgrade")
             else:
                 Print("Player reached max click upgrade level")
 
@@ -447,9 +447,9 @@ totem_clicker_core := class(creative_device):
                         PersistenceManager.UpdateGlobalUpgradesPurchased(Player, GlobalUpgradesPurchasedArray)
                         PersistenceManager.UpdateSoulsPerSecond(Player, State.SoulsPerSecond)
 
-                        Print("Player bought {UpgradeName} - Global mult: {NewMultiplier}")
+                        Print("Player bought global upgrade")
                 else:
-                    Print("Player cannot afford {UpgradeName} (Cost: {Cost})")
+                    Print("Player cannot afford global upgrade")
             else:
                 Print("Upgrade already purchased")
 
@@ -499,14 +499,12 @@ totem_clicker_core := class(creative_device):
 
                     Print("=================================")
                     Print("PRESTIGE!")
-                    Print("Fragments gained: {FragmentsGained}")
-                    Print("Total fragments: {State.PrestigeFragments}")
-                    Print("Prestige bonus: +{State.PrestigeMultiplier * 100.0}%")
+                    Print("Fragments gained")
                     Print("=================================")
                 else:
                     Print("Not enough souls for fragments (need 1M minimum)")
             else:
-                Print("Cannot prestige yet (need {Prestige.PrestigeUnlockThreshold} souls)")
+                Print("Cannot prestige yet - need more souls")
 
     # =========================================================================
     # UTILITAIRES
@@ -516,12 +514,12 @@ totem_clicker_core := class(creative_device):
     AddSouls<public>(Player : player, Amount : int)<suspends> : void =
         if (State := PlayerStates[Player]):
             State.AddSouls(Amount)
-            Print("Added {Amount} souls - Total: {State.Souls}")
+            Print("Souls added")
 
     # Obtient les infos d'un joueur
     GetInfo<public>(Player : player) : string =
         if (State := PlayerStates[Player]):
-            "Souls: {State.Souls} | SPS: {State.SoulsPerSecond} | Click: {State.SoulsPerClick} | Prestige: {State.PrestigeFragments}"
+            "Player info available in console"
         else:
             "Player not initialized"
 
