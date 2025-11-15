@@ -283,23 +283,15 @@ totem_clicker_device := class(creative_device):
     # FONCTIONS LOCALISÉES POUR BILLBOARDS
     # ============================================
 
-    # Messages simples pour les billboards (seuls les int/float sont supportés comme paramètres)
-    <localizes>
-    ComboMessage<private>(Count : int) : message = "COMBO x{Count}"
-    <localizes>
-    NoComboMessage<private>() : message = "Cliquez vite!"
-    <localizes>
-    EventActiveMessage<private>() : message = "EVENT ACTIF"
-    <localizes>
-    NoEventMessage<private>() : message = "Aucun event"
-    <localizes>
-    StatsMessage<private>() : message = "STATS (console)"
-    <localizes>
-    QuestsMessage<private>() : message = "QUETES (console)"
-    <localizes>
-    AchievementsMessage<private>() : message = "ACHIEVEMENTS"
-    <localizes>
-    LeaderboardMessage<private>() : message = "LEADERBOARD"
+    # Messages simples pour les billboards
+    ComboMessage<private>(Count : int) : string = "COMBO x{Count}"
+    NoComboMessage<private>() : string = "Cliquez vite!"
+    EventActiveMessage<private>() : string = "EVENT ACTIF"
+    NoEventMessage<private>() : string = "Aucun event"
+    StatsMessage<private>() : string = "STATS (console)"
+    QuestsMessage<private>() : string = "QUETES (console)"
+    AchievementsMessage<private>() : string = "ACHIEVEMENTS"
+    LeaderboardMessage<private>() : string = "LEADERBOARD"
 
     # ============================================
     # FONCTIONS D'INITIALISATION
@@ -738,7 +730,7 @@ totem_clicker_device := class(creative_device):
         if (Player := player[Agent]):
             RewardAmount := Core.GetQuests().ClaimAllRewards(Player)
             if (RewardAmount > 0):
-                Core.AddSouls(Player, RewardAmount)
+                spawn { Core.AddSouls(Player, RewardAmount) }
                 Print("Player claimed souls from quests!")
             else:
                 Print("No quest rewards to claim")
