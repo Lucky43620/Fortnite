@@ -62,7 +62,7 @@ totem_achievements_manager := class():
             achievement_data{ID := 19, Name := "Perfectionniste", Description := "Acheter tous les upgrades disponibles", Icon := "upgrade", IsUnlocked := false}
         }
 
-        Print("Achievements initialized: {AchievementDefinitions.Length} total")
+        Print("Achievements initialized")
 
     # Initialise un joueur dans le système d'achievements
     InitializePlayer<public>(Player : player) : void =
@@ -99,7 +99,7 @@ totem_achievements_manager := class():
 
                     # Affiche un message
                     if (AchievementDef := AchievementDefinitions[AchievementID]):
-                        Print("ACHIEVEMENT DEVERROUILLE: {AchievementDef.Name}")
+                        Print("ACHIEVEMENT DEVERROUILLE!")
 
                     return true  # Nouveau déblocage
                 else:

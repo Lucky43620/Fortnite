@@ -71,7 +71,7 @@ totem_quests_manager := class():
             quest_data{ID := 14, Name := "Production Massive", Description := "Atteindre 100,000 ames/sec", Type := quest_type.REACH_PRODUCTION, TargetValue := 100000, RewardSouls := 200000, IsCompleted := false}
         }
 
-        Print("Quests initialized: {AvailableQuests.Length} total")
+        Print("Quests initialized")
 
     # Initialise un joueur dans le système de quêtes
     InitializePlayer<public>(Player : player) : void =
@@ -128,7 +128,7 @@ totem_quests_manager := class():
                         set NewProgress = NewProgress + array{NewQuestProg}
 
                         if (Completed = true):
-                            Print("QUETE TERMINEE: {Quest.Name} - Recompense: {Quest.RewardSouls} ames!")
+                            Print("QUETE TERMINEE!")
                     else:
                         set NewProgress = NewProgress + array{QuestProg}
                 else:
@@ -144,7 +144,7 @@ totem_quests_manager := class():
             Quest := AvailableQuests[QuestID]
         then:
             if (QuestProg.IsCompleted = true):
-                Print("Claiming reward for quest: {Quest.Name}")
+                Print("Claiming quest reward")
                 return Quest.RewardSouls
 
         return 0

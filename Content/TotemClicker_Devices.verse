@@ -755,7 +755,7 @@ totem_clicker_device := class(creative_device):
             if (TotalReward > 0):
                 # Ajoute les âmes au joueur
                 Core.AddSouls(Player, TotalReward)
-                Print("Player claimed {TotalReward} souls from quests!")
+                Print("Player claimed souls from quests!")
             else:
                 Print("No quest rewards to claim")
 
@@ -789,15 +789,18 @@ totem_clicker_device := class(creative_device):
 
             # Met à jour les leaderboards (affichage global)
             LeaderboardSoulsText := Leaderboard.GenerateTopSoulsText(UI)
-            Print("LEADERBOARD SOULS:\n{LeaderboardSoulsText}")
+            Print("LEADERBOARD SOULS:")
+            Print(LeaderboardSoulsText)
             LeaderboardSoulsBillboard.SetText(LeaderboardMessage())
 
             LeaderboardProductionText := Leaderboard.GenerateTopProductionText(UI)
-            Print("LEADERBOARD PRODUCTION:\n{LeaderboardProductionText}")
+            Print("LEADERBOARD PRODUCTION:")
+            Print(LeaderboardProductionText)
             LeaderboardProductionBillboard.SetText(LeaderboardMessage())
 
             LeaderboardPrestigeText := Leaderboard.GenerateTopPrestigeText(UI)
-            Print("LEADERBOARD PRESTIGE:\n{LeaderboardPrestigeText}")
+            Print("LEADERBOARD PRESTIGE:")
+            Print(LeaderboardPrestigeText)
             LeaderboardPrestigeBillboard.SetText(LeaderboardMessage())
 
             # Met à jour les billboards personnels pour chaque joueur
@@ -807,22 +810,26 @@ totem_clicker_device := class(creative_device):
                 if (FirstPlayer := AllPlayers[0]):
                     # Achievements (par joueur)
                     AchievementsText := Achievements.GenerateAchievementsText(FirstPlayer)
-                    Print("ACHIEVEMENTS:\n{AchievementsText}")
+                    Print("ACHIEVEMENTS:")
+                    Print(AchievementsText)
                     AchievementsBillboard.SetText(AchievementsMessage())
 
                     # Statistiques (par joueur)
                     StatsText := Statistics.GenerateStatsText(FirstPlayer, UI)
-                    Print("STATISTICS:\n{StatsText}")
+                    Print("STATISTICS:")
+                    Print(StatsText)
                     StatisticsBillboard.SetText(StatsMessage())
 
                     # Quêtes (par joueur)
                     QuestsText := Quests.GenerateQuestsText(FirstPlayer)
-                    Print("QUESTS:\n{QuestsText}")
+                    Print("QUESTS:")
+                    Print(QuestsText)
                     QuestsBillboard.SetText(QuestsMessage())
 
                     # Event actif (par joueur)
                     EventText := Events.GenerateEventText(FirstPlayer)
-                    Print("EVENT:\n{EventText}")
+                    Print("EVENT:")
+                    Print(EventText)
                     if (Events.HasActiveEvent(FirstPlayer)):
                         EventBillboard.SetText(EventActiveMessage())
                     else:
@@ -831,7 +838,8 @@ totem_clicker_device := class(creative_device):
                     # Combo (par joueur)
                     ComboCount := Combo.GetPlayerComboCount(FirstPlayer)
                     ComboText := Combo.GenerateComboText(FirstPlayer)
-                    Print("COMBO:\n{ComboText}")
+                    Print("COMBO:")
+                    Print(ComboText)
                     if (ComboCount > 0):
                         ComboBillboard.SetText(ComboMessage(ComboCount))
                     else:

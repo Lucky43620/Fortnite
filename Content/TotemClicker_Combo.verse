@@ -97,7 +97,7 @@ totem_combo_manager := class():
                 ComboCount := Combo.ComboCount
                 if (MultInt := Floor[Multiplier * 10.0]):
                     MultDisplay := MultInt * 1.0 / 10.0
-                    Print("COMBO x{ComboCount}! Multiplicateur: x{MultDisplay}")
+                    Print("COMBO ACTIF!")
 
             return Multiplier
 

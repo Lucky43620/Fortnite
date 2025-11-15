@@ -98,7 +98,7 @@ player_state := class:
                         set Total += BaseProduction * FloatLevel * Multiplier * GlobalMultiplier
 
         set SoulsPerSecond = Total
-        Print("Production recalculated: {Total} souls/sec")
+        Print("Production recalculated")
 
     # Reset la progression (prestige) mais garde les fragments
     ResetProgress() : void =

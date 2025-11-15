@@ -102,8 +102,7 @@ totem_events_manager := class():
             set Event.IsActive = true
 
             Print("=================================")
-            Print("EVENT ACTIVE: {EventName}")
-            Print("Duree: {EventDuration} secondes")
+            Print("EVENT ACTIVE!")
             Print("=================================")
 
     # Met à jour les events actifs (appelé chaque seconde)

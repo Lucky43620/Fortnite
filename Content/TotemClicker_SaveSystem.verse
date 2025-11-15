@@ -55,7 +55,7 @@ totem_save_system := class:
         # Stocke dans la map
         if (set PlayerSaves[Player] = NewSave) {}
 
-        Print("Player data saved: {State.Souls} souls, {State.PrestigeFragments} fragments")
+        Print("Player data saved")
         return true
 
     # Charge l'état d'un joueur
@@ -69,7 +69,7 @@ totem_save_system := class:
             set State.PrestigeFragments = SavedData.PrestigeFragments
             set State.PrestigeMultiplier = SavedData.PrestigeMultiplier
 
-            Print("Player data loaded: {SavedData.Souls} souls, {SavedData.PrestigeFragments} fragments")
+            Print("Player data loaded")
             return true
 
         Print("No save data found for player")
@@ -81,7 +81,7 @@ totem_save_system := class:
 
     # Démarre le système d'auto-save (simplifié)
     StartAutoSave<public>()<suspends> : void =
-        Print("Auto-save system started (interval: {AutoSaveInterval}s)")
+        Print("Auto-save system started")
         Print("NOTE: Saves are in-memory only, lost on server restart")
 
         loop:
