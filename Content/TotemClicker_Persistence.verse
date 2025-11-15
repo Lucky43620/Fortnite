@@ -37,6 +37,38 @@ totem_player_data := class<final><persistable>:
     PrestigeMultiplier : float = 0.0
     TotalSoulsEarned : int = 0
 
+    # Achievements (20 achievements)
+    AchievementsUnlocked : []logic = array{
+        false, false, false, false, false, false, false, false, false, false,
+        false, false, false, false, false, false, false, false, false, false
+    }
+
+    # Statistiques
+    StatTotalClicks : int = 0
+    StatSoulsFromClicks : int = 0
+    StatSoulsFromProduction : int = 0
+    StatTotalPlayTime : float = 0.0
+    StatTotalGeneratorsPurchased : int = 0
+    StatMostExpensiveGeneratorOwned : int = 0
+    StatTotalUpgradesPurchased : int = 0
+    StatClickUpgradesPurchased : int = 0
+    StatGlobalUpgradesPurchased : int = 0
+    StatTotalPrestiges : int = 0
+    StatTotalFragmentsEarned : int = 0
+    StatHighestSoulsReached : int = 0
+    StatHighestProductionReached : float = 0.0
+    StatFastestMillionSeconds : float = 0.0
+
+    # Quêtes (15 quêtes)
+    QuestsCompleted : []logic = array{
+        false, false, false, false, false, false, false, false, false, false,
+        false, false, false, false, false
+    }
+    QuestsProgress : []int = array{
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0
+    }
+
 # Map faible pour stocker les données persistables des joueurs
 var TotemPlayerDataMap : weak_map(player, totem_player_data) = map{}
 
@@ -53,6 +85,23 @@ MakeTotemPlayerData<constructor>(OldData : totem_player_data)<transacts> := tote
     PrestigeFragments := OldData.PrestigeFragments
     PrestigeMultiplier := OldData.PrestigeMultiplier
     TotalSoulsEarned := OldData.TotalSoulsEarned
+    AchievementsUnlocked := OldData.AchievementsUnlocked
+    StatTotalClicks := OldData.StatTotalClicks
+    StatSoulsFromClicks := OldData.StatSoulsFromClicks
+    StatSoulsFromProduction := OldData.StatSoulsFromProduction
+    StatTotalPlayTime := OldData.StatTotalPlayTime
+    StatTotalGeneratorsPurchased := OldData.StatTotalGeneratorsPurchased
+    StatMostExpensiveGeneratorOwned := OldData.StatMostExpensiveGeneratorOwned
+    StatTotalUpgradesPurchased := OldData.StatTotalUpgradesPurchased
+    StatClickUpgradesPurchased := OldData.StatClickUpgradesPurchased
+    StatGlobalUpgradesPurchased := OldData.StatGlobalUpgradesPurchased
+    StatTotalPrestiges := OldData.StatTotalPrestiges
+    StatTotalFragmentsEarned := OldData.StatTotalFragmentsEarned
+    StatHighestSoulsReached := OldData.StatHighestSoulsReached
+    StatHighestProductionReached := OldData.StatHighestProductionReached
+    StatFastestMillionSeconds := OldData.StatFastestMillionSeconds
+    QuestsCompleted := OldData.QuestsCompleted
+    QuestsProgress := OldData.QuestsProgress
 
 # Gestionnaire de persistance pour TotemClicker
 totem_persistence_manager := class():
